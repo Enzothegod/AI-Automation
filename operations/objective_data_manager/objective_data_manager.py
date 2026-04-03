@@ -17,6 +17,7 @@ from typing import Any
 
 EXCLUDED_DIR_NAMES = {".git", "node_modules", ".venv", "venv", "__pycache__"}
 DEFAULT_DATASTORE = "objective_data.json"
+IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp", ".tiff", ".tif", ".svg"}
 
 
 @dataclass
@@ -338,6 +339,20 @@ def parse_args() -> argparse.Namespace:
     )
     organize_plan.add_argument("--objective", required=True, help="Objective identifier")
 
+    generate_pon_images = subparsers.add_parser(
+        "generate_pon1984_document_images",
+        help="List indexed image files that appear related to a target PON (default: 1984)",
+    )
+    generate_pon_images.add_argument(
+        "--pon",
+        default="1984",
+        help="Program office number token used to match image file paths (default: 1984)",
+    )
+    generate_pon_images.add_argument(
+        "--objective",
+        help="Optional objective id to include linked file placement context",
+    )
+
     subparsers.add_parser("summary", help="Print dataset summary")
 
     return parser.parse_args()
@@ -384,6 +399,45 @@ def print_organize_plan(store: ObjectiveStore, objective_id: str) -> None:
             "steps": snapshot["execution_steps"],
         }
     )
+
+
+def print_pon_document_images(store: ObjectiveStore, pon: str, objective_id: str | None) -> None:
+    pon_token = str(pon).strip().lower()
+    matches: list[dict[str, Any]] = []
+
+    for file_path, metadata in sorted(store.data["file_index"].items()):
+        path_obj = Path(file_path)
+        if path_obj.suffix.lower() not in IMAGE_EXTENSIONS:
+            continue
+        if pon_token not in file_path.lower():
+            continue
+        matches.append(
+            {
+                "file_path": file_path,
+                "size": metadata.get("size"),
+                "modified_at": metadata.get("modified_at"),
+                "sha256": metadata.get("sha256"),
+            }
+        )
+
+    payload: dict[str, Any] = {
+        "pon": pon,
+        "total_indexed_files": len(store.data["file_index"]),
+        "document_images": matches,
+        "count": len(matches),
+    }
+
+    if objective_id:
+        validate_objective_exists(store, objective_id)
+        links = [
+            link
+            for link in store.data["objective_file_links"]
+            if link["objective_id"] == objective_id and link["file_path"] in {item["file_path"] for item in matches}
+        ]
+        payload["objective_id"] = objective_id
+        payload["objective_links"] = links
+
+    print_json(payload)
 
 
 def main() -> None:
@@ -507,6 +561,10 @@ def main() -> None:
 
     if args.command == "organize-plan":
         print_organize_plan(store, args.objective)
+        return
+
+    if args.command == "generate_pon1984_document_images":
+        print_pon_document_images(store, args.pon, args.objective)
         return
 
     if args.command == "summary":
