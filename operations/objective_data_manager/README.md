@@ -40,3 +40,30 @@ python3 operations/objective_data_manager/objective_data_manager.py --store obje
 - Use `add-execution-step` + `update-step-status` to drive progressive action plans and track active execution.
 - Use `add-control-matrix` to preserve authority/control metadata for compliance evidence.
 - The datastore is plain JSON so it can be reviewed, versioned, or synced into a larger workflow.
+
+## Security identifiers to track for leverage workflows
+
+When objectives include collateral, margin, or other leverage-dependent workflows, keep these identifiers for each security:
+
+- Ticker symbol (exchange symbol)
+- CUSIP (US/Canada, 9-character issue identifier)
+- ISIN (12-character international identifier)
+- FIGI (open global instrument identifier)
+- SEDOL (UK-focused instrument identifier)
+- LEI (issuer-level legal entity identifier)
+
+Recommended record shape:
+
+```json
+{
+  "security_name": "Example Corp 5.25% 2031",
+  "asset_type": "bond",
+  "ticker": "EXMPL",
+  "cusip": "123456AB7",
+  "isin": "US123456AB78",
+  "figi": "BBG000B9XRY4",
+  "sedol": "0263494",
+  "issuer_lei": "5493001KJTIIGC8Y1R12",
+  "notes": "Primary collateral candidate for objective OBJ-001"
+}
+```
