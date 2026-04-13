@@ -28,6 +28,7 @@ python3 operations/objective_data_manager/objective_data_manager.py --store obje
 python3 operations/objective_data_manager/objective_data_manager.py --store objective_data.json index-files --root .
 python3 operations/objective_data_manager/objective_data_manager.py --store objective_data.json link-file --objective OBJ-001 --file-path "docs/filings/Q2.pdf" --situation "Quarterly filing" --target-location "submissions/quarterly" --notes "Upload first"
 python3 operations/objective_data_manager/objective_data_manager.py --store objective_data.json organize-plan --objective OBJ-001
+python3 operations/objective_data_manager/objective_data_manager.py --store objective_data.json generate_pon1984_document_images --pon 1984 --objective OBJ-001
 python3 operations/objective_data_manager/objective_data_manager.py --store objective_data.json get-all-data
 python3 operations/objective_data_manager/objective_data_manager.py --store objective_data.json summary
 ```
@@ -39,6 +40,7 @@ python3 operations/objective_data_manager/objective_data_manager.py --store obje
 - Use `organize-plan` to produce a grouped placement plan by `target_location`.
 - Use `add-execution-step` + `update-step-status` to drive progressive action plans and track active execution.
 - Use `add-control-matrix` to preserve authority/control metadata for compliance evidence.
+- Use `generate_pon1984_document_images` to retrieve indexed image evidence tied to PON identifiers (defaults to `1984`).
 - The datastore is plain JSON so it can be reviewed, versioned, or synced into a larger workflow.
 
 ## Security identifiers to track for leverage workflows
