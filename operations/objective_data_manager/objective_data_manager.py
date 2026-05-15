@@ -41,6 +41,36 @@ class LendingItem:
     created_at: str
 
 
+@dataclass
+class AutoChargeAgreement:
+    objective_id: str
+    agreement_id: str
+    provider: str
+    counterparty_bank: str
+    master_account_bank: str
+    cap_amount: float | None
+    currency: str
+    status: str
+    notes: str | None
+    created_at: str
+
+
+@dataclass
+class CustodyIntake:
+    objective_id: str
+    security_name: str
+    asset_type: str
+    quantity: float
+    notional_amount: float
+    currency: str
+    custody_bank: str
+    intake_channel: str
+    pledge_mail_account: str
+    reconciliation_basis: str
+    reference: str | None
+    created_at: str
+
+
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -57,6 +87,8 @@ def ensure_schema(data: dict[str, Any]) -> dict[str, Any]:
     data.setdefault("objective_file_links", [])
     data.setdefault("execution_steps", [])
     data.setdefault("authority_control_matrix", [])
+    data.setdefault("auto_charge_agreements", [])
+    data.setdefault("custody_intake_records", [])
     return data
 
 
@@ -104,6 +136,20 @@ class ObjectiveStore:
 
     def add_lending_item(self, lending_item: LendingItem) -> None:
         self.data["government_guarantee_lending"].append(asdict(lending_item))
+
+    def add_auto_charge_agreement(self, agreement: AutoChargeAgreement) -> None:
+        self.data["auto_charge_agreements"] = [
+            item
+            for item in self.data["auto_charge_agreements"]
+            if not (
+                item["objective_id"] == agreement.objective_id
+                and item["agreement_id"] == agreement.agreement_id
+            )
+        ]
+        self.data["auto_charge_agreements"].append(asdict(agreement))
+
+    def add_custody_intake(self, intake: CustodyIntake) -> None:
+        self.data["custody_intake_records"].append(asdict(intake))
 
     def link_file(
         self,
@@ -220,6 +266,16 @@ class ObjectiveStore:
                 for lending in self.data["government_guarantee_lending"]
                 if lending["objective_id"] == objective_id
             ],
+            "auto_charge_agreements": [
+                agreement
+                for agreement in self.data["auto_charge_agreements"]
+                if agreement["objective_id"] == objective_id
+            ],
+            "custody_intake_records": [
+                intake
+                for intake in self.data["custody_intake_records"]
+                if intake["objective_id"] == objective_id
+            ],
             "file_links": [
                 link
                 for link in self.data["objective_file_links"]
@@ -284,6 +340,57 @@ def parse_args() -> argparse.Namespace:
     add_lending.add_argument("--guarantee-type", required=True, help="Guarantee type")
     add_lending.add_argument("--status", required=True, help="Current status")
     add_lending.add_argument("--reference", help="Optional external reference")
+
+    add_auto_charge = subparsers.add_parser(
+        "add-auto-charge-agreement",
+        help="Record an auto-charge agreement for objective execution",
+    )
+    add_auto_charge.add_argument("--objective", required=True, help="Objective identifier")
+    add_auto_charge.add_argument("--agreement-id", required=True, help="Stable agreement identifier")
+    add_auto_charge.add_argument("--provider", required=True, help="Service provider")
+    add_auto_charge.add_argument("--counterparty-bank", required=True, help="Counterparty bank")
+    add_auto_charge.add_argument("--master-account-bank", required=True, help="Master account bank")
+    add_auto_charge.add_argument(
+        "--cap-amount",
+        type=float,
+        help="Optional cap amount; omit for no cap",
+    )
+    add_auto_charge.add_argument("--currency", default="USD", help="Agreement currency")
+    add_auto_charge.add_argument("--status", default="active", help="Agreement status")
+    add_auto_charge.add_argument("--notes", help="Optional notes")
+
+    add_custody_intake = subparsers.add_parser(
+        "add-custody-intake",
+        help="Record securities intake and custody details",
+    )
+    add_custody_intake.add_argument("--objective", required=True, help="Objective identifier")
+    add_custody_intake.add_argument("--security-name", required=True, help="Security display name")
+    add_custody_intake.add_argument("--asset-type", required=True, help="Asset type (bond, equity, etc.)")
+    add_custody_intake.add_argument("--quantity", required=True, type=float, help="Security quantity")
+    add_custody_intake.add_argument(
+        "--notional-amount",
+        required=True,
+        type=float,
+        help="Associated notional amount",
+    )
+    add_custody_intake.add_argument("--currency", default="USD", help="Notional currency")
+    add_custody_intake.add_argument("--custody-bank", required=True, help="Custody bank")
+    add_custody_intake.add_argument(
+        "--intake-channel",
+        default="treasury",
+        help="Intake channel/system",
+    )
+    add_custody_intake.add_argument(
+        "--pledge-mail-account",
+        required=True,
+        help="Mail account used for pledge tracking",
+    )
+    add_custody_intake.add_argument(
+        "--reconciliation-basis",
+        default="dollar_for_dollar",
+        help="Reconciliation basis",
+    )
+    add_custody_intake.add_argument("--reference", help="Optional external reference")
 
     add_execution_step = subparsers.add_parser(
         "add-execution-step",
@@ -358,6 +465,8 @@ def print_summary(store: ObjectiveStore) -> None:
     print("Linked files:", len(store.data["objective_file_links"]))
     print("Execution steps:", len(store.data["execution_steps"]))
     print("Authority/control records:", len(store.data["authority_control_matrix"]))
+    print("Auto-charge agreements:", len(store.data["auto_charge_agreements"]))
+    print("Custody intake records:", len(store.data["custody_intake_records"]))
 
 
 def print_json(payload: dict[str, Any]) -> None:
@@ -438,6 +547,46 @@ def main() -> None:
         store.add_lending_item(lending_item)
         store.save()
         print("Lending item saved.")
+        return
+
+    if args.command == "add-auto-charge-agreement":
+        validate_objective_exists(store, args.objective)
+        agreement = AutoChargeAgreement(
+            objective_id=args.objective,
+            agreement_id=args.agreement_id,
+            provider=args.provider,
+            counterparty_bank=args.counterparty_bank,
+            master_account_bank=args.master_account_bank,
+            cap_amount=args.cap_amount,
+            currency=args.currency,
+            status=args.status,
+            notes=args.notes,
+            created_at=now_iso(),
+        )
+        store.add_auto_charge_agreement(agreement)
+        store.save()
+        print("Auto-charge agreement saved.")
+        return
+
+    if args.command == "add-custody-intake":
+        validate_objective_exists(store, args.objective)
+        intake = CustodyIntake(
+            objective_id=args.objective,
+            security_name=args.security_name,
+            asset_type=args.asset_type,
+            quantity=args.quantity,
+            notional_amount=args.notional_amount,
+            currency=args.currency,
+            custody_bank=args.custody_bank,
+            intake_channel=args.intake_channel,
+            pledge_mail_account=args.pledge_mail_account,
+            reconciliation_basis=args.reconciliation_basis,
+            reference=args.reference,
+            created_at=now_iso(),
+        )
+        store.add_custody_intake(intake)
+        store.save()
+        print("Custody intake record saved.")
         return
 
     if args.command == "add-execution-step":
