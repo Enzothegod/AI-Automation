@@ -1,6 +1,6 @@
 # AUTO CHARGE AND COLLATERAL SECURITY AGREEMENT
 
-This Auto Charge and Collateral Security Agreement ("Agreement") is made effective as of [Effective Date], by and between [Secured Party Legal Name] ("Secured Party") and [Borrower Legal Name] ("Borrower").
+This Auto Charge and Collateral Security Agreement ("Agreement") is made effective as of [06/07/2026]], by and between [Secured Party Legal Name] ("Secured Party") and [Borrower Legal Name] ("Borrower").
 
 ## 1. Definitions
 - **Obligations**: All debts and liabilities under the Loan Documents.
@@ -29,9 +29,10 @@ Borrower authorizes Secured Party to initiate ACH debits, wire sweeps, and accou
 - Cross-default
 - Insolvency event
 - Guarantee payout or reimbursement event
+- Upon signature of borrower
 
 ## 6. Notice
-Secured Party will provide post-charge notice within [X] business days for Trigger Event charges, unless otherwise required by law.
+Secured Party will provide post-charge notice within [60] business days for Trigger Event charges, unless otherwise required by law.
 
 ## 7. Borrower Covenants
 Borrower must maintain active accounts, sufficient balances, and execute documents required for perfection/control.
