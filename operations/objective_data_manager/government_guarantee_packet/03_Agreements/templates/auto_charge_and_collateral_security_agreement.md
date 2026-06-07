@@ -1,68 +1,70 @@
 # AUTO CHARGE AND COLLATERAL SECURITY AGREEMENT
 
-This Auto Charge and Collateral Security Agreement ("Agreement") is made effective as of [06/07/2026]], by and between [Secured Party Legal Name] ("Secured Party") and [Borrower Legal Name] ("Borrower").
+This Auto Charge and Collateral Security Agreement ("Agreement") is made effective as of [Effective Date], by and between [Secured Party Legal Name] ("Secured Party") and [Borrower Legal Name] ("Borrower").
 
 ## 1. Definitions
-- **Obligations**: All debts and liabilities under the Loan Documents.
-- **Collateral**: All assets listed in this Agreement and any proceeds.
-- **Designated Accounts**: Accounts listed in Schedule A and Schedule B.
-- **Trigger Event**: Any event listed in Section 5.
+- **Obligations**: All debts, liabilities, and payment obligations under the Loan Documents.
+- **Collateral**: All assets described in this Agreement and any proceeds of those assets.
+- **Designated Accounts**: Deposit and investment accounts identified in Schedule A.
+- **Collateral Accounts**: Accounts and assets identified in Schedule B.
+- **Trigger Event**: Any event described in Section 5.
 
 ## 2. Grant of Security Interest
-Borrower grants Secured Party a continuing security interest in the Collateral, including Designated Accounts and related proceeds, to secure all Obligations.
+Borrower grants Secured Party a continuing security interest in the Collateral, including Designated Accounts, Collateral Accounts, and all related proceeds, to secure all Obligations.
 
 ## 3. Auto Charge Authorization
-Borrower authorizes Secured Party to initiate ACH debits, wire sweeps, and account transfers for amounts due under the Loan Documents.
+Borrower authorizes Secured Party to initiate ACH debits, wire transfers, account sweeps, and other charge mechanisms permitted under applicable law for amounts due under the Loan Documents.
 
 ## 4. Payment Waterfall
-1. Costs/fees/expenses
+1. Costs, fees, and expenses
 2. Accrued interest
 3. Past-due principal
 4. Current principal
-5. Reserve/guarantee reimbursement
+5. Reserve and guarantee reimbursement
 6. Other Obligations
 
 ## 5. Trigger Events
-- Scheduled due dates
-- Missed payment beyond grace period
-- Covenant breach
-- Cross-default
-- Insolvency event
+- Scheduled payment due dates
+- Missed payment beyond the agreed grace period
+- Breach of affirmative or negative covenants
+- Cross-default under other loan or guarantee agreements
+- Insolvency, bankruptcy, or similar event
 - Guarantee payout or reimbursement event
-- Upon signature of borrower
+- Execution of the Agreement by Borrower
 
 ## 6. Notice
-Secured Party will provide post-charge notice within [60] business days for Trigger Event charges, unless otherwise required by law.
+Secured Party will provide Borrower notice of any post-charge activity within [60] business days, unless a shorter or longer period is required by applicable law.
 
 ## 7. Borrower Covenants
-Borrower must maintain active accounts, sufficient balances, and execute documents required for perfection/control.
+Borrower agrees to maintain active accounts, keep sufficient balances, and execute any additional documents necessary to perfect and maintain Secured Party's security interest.
 
 ## 8. Perfection and Control
-Borrower authorizes UCC filings and agrees to execute control agreements where required.
+Borrower authorizes Secured Party to file UCC financing statements and execute control agreements or other perfection documents as required.
 
 ## 9. Setoff
-Secured Party may exercise setoff rights to the extent permitted by law.
+Secured Party may exercise any setoff rights permitted by applicable law against Borrower accounts and Collateral.
 
 ## 10. Governing Law and Venue
 Governing law: [State]. Venue: [County/State/Federal District].
 
 ## 11. Signature Blocks
+The parties agree to execute signature blocks for:
 - Secured Party authorized signatory
 - Borrower authorized signatory
 
 ## Schedule A — Designated Deposit Accounts
 | Bank | Account Title | Last 4 | Routing | Method | Frequency | Limit |
 |---|---|---:|---|---|---|---|
-| [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| [Bank Name] | [Account Title] | [Last 4] | [Routing Number] | [ACH/Wire/Sweep] | [Frequency] | [Limit] |
 
 ## Schedule B — Collateral Accounts
 | Custodian | Account ID | Asset Type | Control Agreement | Lien Priority | Notes |
 |---|---|---|---|---|---|
-| [ ] | [ ] | [ ] | [Executed/Pending] | [1st/2nd] | [ ] |
+| [Custodian] | [Account ID] | [Asset Type] | [Executed/Pending] | [1st/2nd] | [Notes] |
 
 ## Schedule C — Trigger Matrix
 | Trigger | Evidence | Approval | Notice | Owner |
 |---|---|---|---|---|
-| Scheduled Payment | Payment schedule | Auto | Per mandate | Servicing |
-| Default | Delinquency report | Manager | Within [X] days | Compliance |
-| Guarantee Payout | Payout report | Director | Within [X] days | Treasury Ops |
+| Scheduled Payment | Payment schedule | Automatic | [Notice Timing] | [Owner] |
+| Default | Delinquency report | [Approver] | Within [X] days | [Owner] |
+| Guarantee Payout | Payout report | [Approver] | Within [X] days | [Owner] |

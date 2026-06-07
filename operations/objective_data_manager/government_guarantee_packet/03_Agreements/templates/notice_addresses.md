@@ -1,11 +1,15 @@
 # Notice Addresses
 
 ## Secured Party Notices
-- Name/Departments: Enzo Caprelli / Treasury Operationa
-- Email: [enzo.snapp@gmail.com ]
-- Address: 700 e lake dr orange Ca unit 11 92866
+- Name/Department: [Secured Party Name] / [Department]
+- Email: [securedparty@example.com]
+- Address: [Street Address]
+- City/State/ZIP: [City, State ZIP]
+- Phone: [Phone Number]
 
 ## Borrower Notices
-- Name/Department: SNAPPDREDITCOM
-- Email: hybrid50@gmail.com
-- Address: 700 E Lake dr. Orange Ca 92866
+- Name/Department: [Borrower Legal Name] / [Department]
+- Email: [borrower@example.com]
+- Address: [Street Address]
+- City/State/ZIP: [City, State ZIP]
+- Phone: [Phone Number]
