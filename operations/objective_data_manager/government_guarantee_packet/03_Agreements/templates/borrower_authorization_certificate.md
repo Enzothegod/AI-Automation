@@ -6,6 +6,6 @@ I, [Name], as [Title] of [Borrower Legal Name], certify that:
 2. The governing body approved the Agreement on [Date].
 3. The account and collateral schedules are true and correct.
 
-Signature: ____________________
+Signature: __Enzo_Caprelli___
 
 Date: ________________________
